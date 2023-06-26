@@ -241,7 +241,7 @@ export default {
                           >Register</router-link>
                         </p> -->
                         <p>
-                          © {{currentYear}} PICFC Development Bank..
+                          © {{currentYear}} ICFC Finance Bank..
                           <!-- <i class="mdi mdi-heart text-danger"></i> by Themesdesign -->
                         </p>
                       </div>
