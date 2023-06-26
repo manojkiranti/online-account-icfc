@@ -551,11 +551,11 @@ export default {
           class="d-inline-block user-dropdown"
         >
           <template v-slot:button-content>
-            <img
+            <!-- <img
               class="rounded-circle header-profile-user"
               src="@/assets/images/users/avatar-6.jpg"
               alt="Header Avatar"
-            />
+            /> -->
             <span class="d-none d-xl-inline-block ml-1">{{ $t('navbar.dropdown.kevin.text')}}</span>
             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
           </template>
