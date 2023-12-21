@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-          {{currentYear}} © ICFC Finance Bank.
+          {{currentYear}} © Narayani Finance Bank.
         </div>
         <div class="col-sm-6">
           <div class="text-sm-right d-none d-sm-block">
             Online Account Portal
-            by ICFC Finance Bank.
+            by Narayani Finance Bank.
           </div>
         </div>
       </div>

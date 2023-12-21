@@ -241,7 +241,7 @@ export default {
                           >Register</router-link>
                         </p> -->
                         <p>
-                          © {{currentYear}} ICFC Finance Bank..
+                          © {{currentYear}} Narayani Finance Bank..
                           <!-- <i class="mdi mdi-heart text-danger"></i> by Themesdesign -->
                         </p>
                       </div>

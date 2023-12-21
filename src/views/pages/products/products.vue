@@ -219,13 +219,7 @@ export default {
       productCategoryList: []
     };
   },
-  filters: {
-    // Filter definitions
-    dateFormate(value) {
-      const yourDate = new Date(value);
-      return yourDate.toISOString().split("T")[0];
-    },
-  },
+
   mounted() {
     this.getNewRequest();
     this.getProductCategoryList();

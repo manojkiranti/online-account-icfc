@@ -21,12 +21,12 @@
              </div>
            </div>
          </div>
-         <div class="row display-mobile" >
+         <div class="row display-mobile"  v-if="windowWidth < 768">
            <div class="col-md-12">
              <div class="example-3d">
                <swiper class="swiper" :options="swiperOption">
  
-                 <swiper-slide v-for="(data, index) in shopsData" :key="index">
+                 <swiper-slide v-for="(data, index) in products" :key="index">
                    <div class="card">
                      <div class="card-body">
                        <div class="text-center">
@@ -65,9 +65,13 @@
              </div>
            </div>
          </div>
-         <div class="row hidden-mobile">
+         <div v-if="productLoading" >
+          <Loader  />
+         </div>
+         
+         <div class="row hidden-mobile" v-if="windowWidth > 767">
  
-           <div class="col-xl-4 col-sm-6" v-for="(data, index) in shopsData" :key="index">
+           <div class="col-xl-4 col-sm-6" v-for="(data, index) in products" :key="index">
              <div class="card">
                <div class="card-body">
                  <div class="text-center">
@@ -93,7 +97,7 @@
                  </div>
                  <div class="row text-center">
                    <div class="col-6">
-                     <b-button pill variant="primary" @click="applyNow(data.products)">Apply Now</b-button>
+                     <b-button pill variant="primary" @click="applyNow(data.slug)">Apply Now</b-button>
                    </div>
                    <div class="col-6">
                      <b-button @click="viewDetail(index)" pill variant="outline-secondary">View Details</b-button>
@@ -122,12 +126,13 @@
  import Api from "../../../repositories/products";
  
  import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+ import Loader from "../../../components/loader.vue";
  import "swiper/css/swiper.css";
  
  export default {
    name: "ProductPage",
    mixins: [Promise],
-   components: { Swiper, SwiperSlide },
+   components: { Swiper, SwiperSlide, Loader },
    directives: {
      swiper: directive,
    },
@@ -135,6 +140,7 @@
      return {
        title: "Products",
        products: [],
+       productLoading: false,
        selectedProduct: {
          title: '',
          short_description: ''
@@ -148,11 +154,12 @@
            }
        
        },
+       windowWidth: window.innerWidth,
        shopsData: [
  
          {
            image: require("@/assets/images/companies/img-1.png"),
-           title: "ICFC BUMPER SAVING ACCOUNT",
+           title: "Narayani BUMPER SAVING ACCOUNT",
            interest_rate: 12,
            name: "Wayne McClain",
            products: 86,
@@ -160,7 +167,7 @@
          },
          {
            image: require("@/assets/images/companies/img-2.png"),
-           title: "ICFC SOCIAL SECURITY",
+           title: "Narayani SOCIAL SECURITY",
            interest_rate: 13,
            name: "David Marshall",
            products: 72,
@@ -168,7 +175,7 @@
          },
          {
            image: require("@/assets/images/companies/img-3.png"),
-           title: "ICFC SAVING",
+           title: "Narayani SAVING",
            interest_rate: 10,
            name: "Katia Stapleton",
            products: 75,
@@ -176,7 +183,7 @@
          },
          {
            image: require("@/assets/images/companies/img-4.png"),
-           title: "ICFC Premium Saving",
+           title: "Narayani Premium Saving",
            interest_rate: 12,
            name: "Andrew Bivens",
            products: 65,
@@ -216,7 +223,7 @@
          },
          {
            image: require("@/assets/images/companies/img-8.png"),
-           title: "ICFC Zero Balance",
+           title: "Narayani Zero Balance",
            interest_rate: 12,
            name: "John McLeroy",
            products: 538,
@@ -252,20 +259,32 @@
  
    mounted() {
      this.getPrerequest();
+     this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
    },
+   beforeDestroy() { 
+    window.removeEventListener('resize', this.onResize); 
+  },
    methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
      getPrerequest() {
+       this.productLoading = true;
        const operation = this.response(Api.getPreRequest());
        operation
          .then((data) => {
            if (operation.isFulfilled()) {
              console.log(data);
              this.products = data.products;
+             this.productLoading = false;
            }
          })
          .catch((err) => {
            console.log(err);
-         });
+           this.productLoading = false;
+         })
      },
      viewDetail(index) {
        this.selectedProduct = this.products[index]
